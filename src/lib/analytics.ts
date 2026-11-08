@@ -9,8 +9,8 @@ declare global {
 }
 
 export function track(name: string, params: GtagParams = {}) {
-  // beacon: 외부 링크로 페이지를 떠나도 이벤트가 유실되지 않게 한다.
-  window.gtag?.('event', name, { ...params, transport_type: 'beacon' });
+  // GA4 는 기본적으로 sendBeacon 으로 보내서, 외부 링크로 페이지를 떠나도 이벤트가 유실되지 않는다.
+  window.gtag?.('event', name, params);
 }
 
 /**
