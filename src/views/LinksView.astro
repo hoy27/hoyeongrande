@@ -65,6 +65,22 @@ const avatarAlt = localize(profile.avatar ? profile.avatarAlt : profile.photoAlt
           </li>
         ))
       }
+      {
+        profile.presskit && (
+          <li>
+            <LinkButton
+              lang={lang}
+              link={{
+                id: 'presskit',
+                label: t(lang, 'contact.presskit'),
+                url: profile.presskit,
+                icon: 'file',
+                highlight: false,
+              }}
+            />
+          </li>
+        )
+      }
     </ul>
 
     <a class="home" href={localePath(lang)}>{t(lang, 'links.home')} →</a>

@@ -29,7 +29,9 @@ const sections = [
           {
             sections.map((s) => (
               <li>
-                <a href={s.href}>{s.label}</a>
+                <a href={s.href} data-section-link>
+                  {s.label}
+                </a>
               </li>
             ))
           }
@@ -115,6 +117,51 @@ const sections = [
 
     // 키보드로 헤더 안에 포커스가 오면 숨어 있어도 보여준다
     nav.addEventListener('focusin', () => nav.classList.remove('is-hidden'));
+  }
+</script>
+
+<script>
+  // 햄버거 메뉴에서 지금 보고 있는 섹션을 강조한다 (aria-current="location").
+  // 헤더 바로 아래 기준선(헤더 높이 + 100px)을 지나간 마지막 섹션이 "현재 위치".
+  // 화면 비율 기준으로 잡으면 세로로 긴 화면에서 짧은 섹션(About)을 보는 중에도
+  // 다음 섹션이 표시되는 문제가 있어서, 화면 크기와 상관없는 고정 위치로 잡는다.
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('a[data-section-link]')];
+  const sections = links
+    .map((link) => document.querySelector<HTMLElement>(link.getAttribute('href') ?? ''))
+    .filter((el): el is HTMLElement => el !== null);
+
+  if (links.length && sections.length) {
+    let ticking = false;
+
+    const markCurrent = () => {
+      ticking = false;
+      const header = document.querySelector<HTMLElement>('[data-nav]');
+      const line = (header?.offsetHeight ?? 56) + 100;
+      let currentId = '';
+      for (const section of sections) {
+        if (section.getBoundingClientRect().top <= line) currentId = section.id;
+      }
+      // 맨 아래까지 내렸으면 마지막 섹션(Contact)
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
+        currentId = sections[sections.length - 1].id;
+      }
+      for (const link of links) {
+        if (link.getAttribute('href') === `#${currentId}`) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
+      }
+    };
+
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(markCurrent);
+      },
+      { passive: true },
+    );
+    window.addEventListener('resize', markCurrent);
+    markCurrent();
   }
 </script>
 
@@ -240,6 +287,11 @@ const sections = [
     font-weight: 800;
     text-decoration: none;
     text-transform: uppercase;
+  }
+
+  /* 지금 보고 있는 섹션 */
+  .panel a[aria-current='location'] {
+    color: var(--color-accent);
   }
 
   .panel a:hover {

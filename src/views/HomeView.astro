@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Nav from '../components/Nav.astro';
 import Hero from '../components/Hero.astro';
+import Stats from '../components/Stats.astro';
 import About from '../components/About.astro';
 import Media from '../components/Media.astro';
 import Career from '../components/Career.astro';
@@ -33,10 +34,17 @@ const [profile, links, media, career] = await Promise.all([
   <Nav lang={lang} name={profile.name} />
   <main id="main">
     <Hero lang={lang} profile={profile} />
+    <Stats lang={lang} profile={profile} career={career} />
     <About lang={lang} />
     <Media lang={lang} items={media} />
     <!-- History(경력) 표시 방식: layout="timeline" 또는 layout="byType" -->
     <Career lang={lang} items={career} layout="timeline" />
-    <Contact lang={lang} email={profile.email} links={links} />
+    <Contact
+      lang={lang}
+      email={profile.email}
+      links={links}
+      bookingTypes={profile.bookingTypes}
+      presskit={profile.presskit}
+    />
   </main>
 </Base>

@@ -2,4 +2,4 @@ HOYEONGRANDE started DJing in a university DJ club in 2017, became its president
 
 After moving to Seoul in 2023, HOYEONGRANDE has played parties with the cultural planning team Culture Cloud, the DJ crews Grime Crew and MNB Seoul, and the DJ crew of LST, an English conversation community.
 
-The sound: hip, trending tracks the crowd loves.
+The sound: the latest tracks the crowd loves.

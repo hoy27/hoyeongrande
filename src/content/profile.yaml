@@ -5,13 +5,31 @@
 main:
   name: HOYEONGRANDE
   tagline:
-    ko: 힙하고 트렌디한 음악을 트는 서울 기반 DJ
-    en: Seoul-based DJ playing hip, trending sounds
+    ko: 트렌디한 음악을 추구하는 서울 기반 DJ
+    en: Seoul-based DJ chasing the latest sounds
   # 링크 페이지 이름 아래 문구. 비워 두면 빈 줄로 남는다 (예: linksTagline: { ko: "...", en: "..." })
   linksTagline: ""
   email: hoyeongrande@gmail.com
   location: { ko: 서울, en: Seoul }
-  genres: []
+  genres: [House, Hip-hop, K-pop, Festival EDM, R&B, Miami Bass]
+
+  # About 위 요약 박스. 공연 수는 career.yaml 에서 자동으로 센다.
+  since: 2017
+  highlights:
+    - { ko: Red Bull 행사 DJ 다수, en: DJ at multiple Red Bull events }
+    - { ko: "대학교 행사 경험 (홍익대·한밭대 등)", en: "University events (Hongik, Hanbat and more)" }
+    - { ko: "디제이 크루 활동 (Culture Cloud, MNB, Grime, LST)", en: "DJ crews: Culture Cloud, MNB, Grime, LST" }
+    - { ko: "기업·브랜드 행사 (서울카페쇼 사일런트 디스코, NFT 런칭, 주류·의류 브랜드 등)", en: "Corporate & brand events (Seoul Cafe Show silent disco, NFT launch, liquor & fashion brands)" }
+
+  # Contact 의 부킹 문의 아래에 보이는 섭외 가능한 행사 종류
+  bookingTypes:
+    - { ko: 클럽 파티, en: Club parties }
+    - { ko: 대학 축제, en: University festivals }
+    - { ko: 기업 행사, en: Corporate events }
+    - { ko: 프라이빗·생일 파티, en: Private & birthday parties }
+
+  # 프레스킷 링크 (구글 드라이브 공유 링크 등). 넣으면 Contact 와 링크 페이지에 버튼이 생긴다.
+  presskit: ""
   photo: ../assets/hero.jpg
   photoAlt: { ko: "디제잉 중인 HOYEONGRANDE", en: "HOYEONGRANDE playing a set" }
   avatar: ../assets/profile.jpg

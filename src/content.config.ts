@@ -77,6 +77,13 @@ const profile = defineCollection({
         email: z.email(),
         location: text.optional(),
         genres: z.array(z.string()).default([]),
+        /** About 위 요약 박스: 활동 시작 연도, 주요 무대 */
+        since: z.number().int().min(1990).optional(),
+        highlights: z.array(text).default([]),
+        /** Contact 의 부킹 문의 아래에 보이는 섭외 가능한 행사 종류 */
+        bookingTypes: z.array(text).default([]),
+        /** 프레스킷 링크(구글 드라이브 등). 비워 두면 버튼을 숨긴다 */
+        presskit: z.union([z.literal(''), z.url()]).default(''),
         photo: image().optional(),
         photoAlt: text.optional(),
         avatar: image().optional(),

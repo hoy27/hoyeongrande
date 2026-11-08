@@ -30,7 +30,19 @@ const tagline = localize(profile.tagline, lang);
   <div class="container content">
     <h1 id="hero-title" class="name">{profile.name}</h1>
     <p class="tagline">{tagline}</p>
-    {profile.genres.length > 0 && <p class="genres">{profile.genres.join(' · ')}</p>}
+    {
+      profile.genres.length > 0 && (
+        <p class="genres">
+          {/* 장르마다 줄바꿈이 안 되게 묶고, 구분점은 앞 장르 끝에 붙여서 줄 첫머리에 오지 않게 */}
+          {profile.genres.map((genre, i) => (
+            <span class="genre">
+              {genre}
+              {i < profile.genres.length - 1 && ' ·'}
+            </span>
+          ))}
+        </p>
+      )
+    }
   </div>
   <a class="scroll" href="#about">
     <span class="visually-hidden">{t(lang, 'hero.scroll')}</span>
@@ -91,11 +103,18 @@ const tagline = localize(profile.tagline, lang);
   }
 
   .genres {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 0.5em;
     margin: var(--space-2) 0 0;
     color: var(--color-muted);
     font-size: var(--text-sm);
     letter-spacing: 0.08em;
     text-transform: uppercase;
+  }
+
+  .genre {
+    white-space: nowrap;
   }
 
   .scroll {
