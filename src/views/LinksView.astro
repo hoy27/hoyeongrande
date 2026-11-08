@@ -38,7 +38,6 @@ const avatarAlt = localize(profile.avatar ? profile.avatarAlt : profile.photoAlt
           height={112}
           densities={[1, 2, 3]}
           loading="eager"
-          fetchpriority="high"
         />
       ) : (
         <div class="avatar monogram" aria-hidden="true">
@@ -52,7 +51,7 @@ const avatarAlt = localize(profile.avatar ? profile.avatarAlt : profile.photoAlt
     {
       media.length > 0 && (
         <div class="media">
-          <MediaList lang={lang} items={media} />
+          <MediaList lang={lang} items={media} eagerLead />
         </div>
       )
     }

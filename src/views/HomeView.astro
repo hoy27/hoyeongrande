@@ -37,8 +37,7 @@ const [profile, links, media, career] = await Promise.all([
     <Stats lang={lang} profile={profile} career={career} />
     <About lang={lang} />
     <Media lang={lang} items={media} />
-    <!-- History(경력) 표시 방식: layout="timeline" 또는 layout="byType" -->
-    <Career lang={lang} items={career} layout="timeline" />
+    <Career lang={lang} items={career} />
     <Contact
       lang={lang}
       email={profile.email}

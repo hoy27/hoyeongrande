@@ -8,7 +8,7 @@
   --color-border: #2a2a2a;
   --color-text: #f2f2f2;
   --color-muted: #8a8a8a; /* #0a0a0a 위 대비 5.9:1 */
-  --color-accent: #e8ff59; /* 임시 강조색. PDF에서 고른 색으로 교체 */
+  --color-accent: #e8ff59; /* 강조색: 노란 제목, UPCOMING, 버튼 등 */
   --color-accent-text: #0a0a0a;
 
   /* 본문·한글: IBM Plex Sans KR (400/600/700). 영문 제목: Archivo 기울임 — 로고의 GRANDE 결 */

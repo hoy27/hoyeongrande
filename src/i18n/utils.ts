@@ -18,10 +18,6 @@ export function localize(value: LocalizedText | undefined, lang: Lang) {
   return value[lang] ?? value.ko;
 }
 
-export function isLang(value: string | undefined): value is Lang {
-  return value !== undefined && value in languages;
-}
-
 export function otherLang(lang: Lang): Lang {
   return lang === 'ko' ? 'en' : 'ko';
 }

@@ -1,9 +1,9 @@
 ---
 // 폰트: 영문 제목 Archivo(기울임), 본문·한글 IBM Plex Sans KR. 사이트에 함께 배포(외부 요청 없음)
 import '@fontsource-variable/archivo/wght-italic.css';
-import '@fontsource/ibm-plex-sans-kr/400.css';
-import '@fontsource/ibm-plex-sans-kr/600.css';
-import '@fontsource/ibm-plex-sans-kr/700.css';
+import fontsCssUrl from '../styles/fonts.css?url';
+// 큰 제목(이름·섹션 제목)에 쓰는 영문 폰트는 먼저 받아 둔다 (CSS 가 쓰는 파일과 같은 파일)
+import archivoUrl from '@fontsource-variable/archivo/files/archivo-latin-wght-italic.woff2?url';
 import '../styles/global.css';
 import { allLangs, htmlLang, localePath, ogLocale, otherLang, type Lang } from '../i18n/utils';
 
@@ -36,6 +36,13 @@ const loadGa = import.meta.env.PROD && Boolean(gaId);
     <script is:inline>
       document.documentElement.classList.add('js');
     </script>
+
+    <!-- 한글 폰트 규칙(약 100KB)은 화면 그리기를 막지 않도록 나중에 적용한다 (media=print → all).
+         적용 전에는 시스템 고딕으로 보이고, 폰트가 오면 바뀐다. -->
+    <link rel="preload" href={archivoUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={fontsCssUrl} as="style" />
+    <link rel="stylesheet" href={fontsCssUrl} media="print" onload="this.setAttribute('media', 'all')" />
+    <noscript><link rel="stylesheet" href={fontsCssUrl} /></noscript>
 
     <title>{title}</title>
     <meta name="description" content={description} />

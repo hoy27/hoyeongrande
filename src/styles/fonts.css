@@ -1,0 +1,5 @@
+/* 한글 본문 폰트(IBM Plex Sans KR). 글자 조각 규칙이 수백 개라 용량이 커서,
+   화면을 먼저 그리고 나중에 불러오도록 Base.astro 에서 따로 연결한다. */
+@import '@fontsource/ibm-plex-sans-kr/400.css';
+@import '@fontsource/ibm-plex-sans-kr/600.css';
+@import '@fontsource/ibm-plex-sans-kr/700.css';

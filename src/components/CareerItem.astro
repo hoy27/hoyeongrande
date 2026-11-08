@@ -7,23 +7,20 @@ interface Props {
   lang: Lang;
   item: CareerItem;
   today: string;
-  /** 종류 뱃지 표시 (종류별 섹션 레이아웃에서는 끈다) */
-  showType?: boolean;
 }
 
-const { lang, item, today, showType = true } = Astro.props;
+const { lang, item, today } = Astro.props;
 const title = localize(item.title, lang);
 const place = [localize(item.venue, lang), localize(item.city, lang)].filter(Boolean).join(', ');
 const note = localize(item.note, lang);
 const ongoing = isOngoing(item, today);
 ---
 
-<!-- data-start/end/type: 페이지가 열릴 때 지난 공연을 Upcoming 에서 옮기는 스크립트(Career.astro)가 쓴다 -->
+<!-- data-start/end: 페이지가 열릴 때 지난 공연을 Upcoming 에서 옮기는 스크립트(Career.astro)가 쓴다 -->
 <li
   class:list={['item', { featured: item.featured }]}
   data-start={item.date}
   data-end={item.endDate ?? item.date}
-  data-type={item.type}
 >
   <time class="date" datetime={item.date}>{formatDateRange(item, lang)}</time>
   <div class="body">
@@ -56,13 +53,7 @@ const ongoing = isOngoing(item, today);
     <span class="tag tag-live" data-ongoing hidden={!ongoing}>
       {t(lang, 'career.ongoing')}
     </span>
-    {
-      showType && (
-        <span class="tag" data-type-tag>
-          {t(lang, `career.type.${item.type}`)}
-        </span>
-      )
-    }
+    <span class="tag">{t(lang, `career.type.${item.type}`)}</span>
   </div>
 </li>
 

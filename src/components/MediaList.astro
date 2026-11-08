@@ -7,9 +7,14 @@ import { localize, t, type Lang } from '../i18n/utils';
 interface Props {
   lang: Lang;
   items: MediaItem[];
+  /**
+   * 첫 번째 영상 썸네일을 바로(높은 우선순위로) 받는다.
+   * 첫 화면에 보이는 링크 페이지에서만 켠다. 소개 페이지에서는 아래쪽이라 보일 때 받는다.
+   */
+  eagerLead?: boolean;
 }
 
-const { lang, items } = Astro.props;
+const { lang, items, eagerLead = false } = Astro.props;
 // Media 섹션(소개 페이지)과 링크 페이지가 함께 쓰는 목록.
 // 영상은 썸네일 카드(첫 번째는 크게), 음원은 아래에 한 줄씩.
 // 누르면 새 창(휴대폰에서는 유튜브·사운드클라우드 앱)으로 연다. 플레이어를 페이지에 넣지 않아 가볍다.
@@ -19,7 +24,11 @@ const platformName = { youtube: 'YouTube', soundcloud: 'SoundCloud' } as const;
 // 첫 번째 영상은 전체 폭, 나머지는 반 폭
 const thumbSizes = (index: number) =>
   index === 0
-    ? { widths: [640, 1280], sizes: '(min-width: 640px) 576px, 90vw' }
+    ? {
+        widths: [640, 1280],
+        sizes: '(min-width: 640px) 576px, 90vw',
+        ...(eagerLead ? { loading: 'eager' as const, fetchpriority: 'high' as const } : {}),
+      }
     : { widths: [320, 640], sizes: '(min-width: 640px) 284px, 45vw' };
 ---
 

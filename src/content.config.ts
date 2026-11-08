@@ -75,7 +75,6 @@ const profile = defineCollection({
         /** 링크 페이지 이름 아래 문구. 빈 문자열이면 줄 높이만 남기고 비워 둔다 */
         linksTagline: z.union([z.literal(''), text]).default(''),
         email: z.email(),
-        location: text.optional(),
         genres: z.array(z.string()).default([]),
         /** About 위 요약 박스: 활동 시작 연도, 주요 무대 */
         since: z.number().int().min(1990).optional(),

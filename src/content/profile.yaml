@@ -10,7 +10,6 @@ main:
   # 링크 페이지 이름 아래 문구. 비워 두면 빈 줄로 남는다 (예: linksTagline: { ko: "...", en: "..." })
   linksTagline: ""
   email: hoyeongrande@gmail.com
-  location: { ko: 서울, en: Seoul }
   genres: [House, Hip-hop, K-pop, Festival EDM, R&B, Miami Bass]
 
   # About 위 요약 박스. 공연 수는 career.yaml 에서 자동으로 센다.

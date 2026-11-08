@@ -2,7 +2,6 @@ import type { CollectionEntry } from 'astro:content';
 import type { Lang } from '../i18n/utils';
 
 export type CareerItem = CollectionEntry<'career'>['data'];
-export type CareerType = CareerItem['type'];
 
 export const TIME_ZONE = 'Asia/Seoul';
 
@@ -48,13 +47,6 @@ export function groupByYear(items: CareerItem[]) {
     groups.set(year, [...(groups.get(year) ?? []), item]);
   }
   return [...groups].map(([year, list]) => ({ year, items: list }));
-}
-
-/** 종류별로 묶는다. order 순서대로, 비어 있는 종류는 뺀다. */
-export function groupByType(items: CareerItem[], order: readonly CareerType[]) {
-  return order
-    .map((type) => ({ type, items: items.filter((item) => item.type === type) }))
-    .filter((group) => group.items.length > 0);
 }
 
 function formatOne(date: string, lang: Lang, withYear: boolean) {
