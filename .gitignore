@@ -24,3 +24,6 @@ npm-debug.log*
 
 # 원본 사진 (사이트에는 줄인 사본 src/assets/hero.jpg 를 쓴다)
 src/assets/IMG_8094.JPG
+
+# 개인 메모 (저장소에 올리지 않음)
+*.local.md
