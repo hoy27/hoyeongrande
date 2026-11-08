@@ -29,7 +29,7 @@ main:
     - { ko: 프라이빗·생일 파티, en: Private & birthday parties }
 
   # 프레스킷 링크 (구글 드라이브 공유 링크 등). 넣으면 Contact 와 링크 페이지에 버튼이 생긴다.
-  presskit: ""
+  presskit: "https://drive.google.com/file/d/1dYFfmlbULzvmDdJ7SxihU3SVkkBZOjkp/view?usp=drive_link"
   photo: ../assets/hero.jpg
   photoAlt: { ko: "디제잉 중인 HOYEONGRANDE", en: "HOYEONGRANDE playing a set" }
   avatar: ../assets/profile.jpg
