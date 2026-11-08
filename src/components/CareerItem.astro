@@ -1,0 +1,117 @@
+---
+import type { CareerItem } from '../lib/career';
+import { formatDateRange, isOngoing } from '../lib/career';
+import { localize, t, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  item: CareerItem;
+  today: string;
+  /** 종류 뱃지 표시 (종류별 섹션 레이아웃에서는 끈다) */
+  showType?: boolean;
+}
+
+const { lang, item, today, showType = true } = Astro.props;
+const title = localize(item.title, lang);
+const place = [localize(item.venue, lang), localize(item.city, lang)].filter(Boolean).join(', ');
+const note = localize(item.note, lang);
+const ongoing = isOngoing(item, today);
+---
+
+<li class:list={['item', { featured: item.featured }]}>
+  <time class="date" datetime={item.date}>{formatDateRange(item, lang)}</time>
+  <div class="body">
+    <p class="title">
+      {
+        item.link ? (
+          <a href={item.link} target="_blank" rel="noopener" data-link-id={`career:${item.id}`}>
+            {title}
+            <span class="visually-hidden"> (new tab)</span>
+          </a>
+        ) : (
+          title
+        )
+      }
+    </p>
+    {place && <p class="meta">{place}</p>}
+    {note && <p class="meta">{note}</p>}
+  </div>
+  <div class="tags">
+    {ongoing && <span class="tag tag-live">{t(lang, 'career.ongoing')}</span>}
+    {showType && <span class="tag">{t(lang, `career.type.${item.type}`)}</span>}
+  </div>
+</li>
+
+<style>
+  .item {
+    display: grid;
+    grid-template-columns: 7.5rem 1fr auto;
+    gap: var(--space-1) var(--space-4);
+    align-items: baseline;
+    padding-block: var(--space-4);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .date {
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .title {
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .featured .title {
+    font-size: var(--text-lg);
+  }
+
+  .title a {
+    text-decoration: none;
+  }
+
+  .title a:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--color-accent);
+    text-underline-offset: 0.2em;
+  }
+
+  .meta {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+  }
+
+  .tags {
+    display: flex;
+    gap: var(--space-1);
+  }
+
+  .tag {
+    padding: 0.1rem 0.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    color: var(--color-muted);
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+
+  .tag-live {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  /* 모바일: 날짜와 뱃지를 한 줄, 제목을 아래 줄에 */
+  @media (max-width: 40rem) {
+    .item {
+      grid-template-columns: 1fr auto;
+    }
+
+    .body {
+      grid-column: 1 / -1;
+      grid-row: 2;
+    }
+  }
+</style>

@@ -1,0 +1,19 @@
+# 링크 페이지 버튼. 파일에 적힌 순서대로 보인다.
+# icon: instagram | soundcloud | youtube | mixcloud | spotify | applemusic | bandcamp | tiktok | x | email | link
+# highlight: true 로 두면 강조 버튼이 된다.
+# ⚠ url 은 샘플이다. 실제 주소로 바꿔야 한다.
+
+- id: instagram
+  label: Instagram
+  url: https://instagram.com/
+  icon: instagram
+
+- id: soundcloud
+  label: SoundCloud
+  url: https://soundcloud.com/
+  icon: soundcloud
+
+- id: youtube
+  label: YouTube
+  url: https://youtube.com/
+  icon: youtube

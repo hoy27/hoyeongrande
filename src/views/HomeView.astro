@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import About from '../components/About.astro';
+import Career from '../components/Career.astro';
+import Contact from '../components/Contact.astro';
+import { getCareer, getLinks, getProfile } from '../lib/data';
+import { localize, t, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const [profile, links, career] = await Promise.all([getProfile(), getLinks(), getCareer()]);
+---
+
+<Base
+  lang={lang}
+  page="home"
+  path=""
+  title={t(lang, 'meta.home.title', { name: profile.name })}
+  description={localize(profile.tagline, lang)}
+>
+  <a class="skip-link" href="#main">{t(lang, 'nav.skip')}</a>
+  <Nav lang={lang} name={profile.name} />
+  <main id="main">
+    <Hero lang={lang} profile={profile} />
+    <About lang={lang} />
+    <!-- Career 표시 방식: layout="timeline" 또는 layout="byType" -->
+    <Career lang={lang} items={career} layout="timeline" />
+    <Contact lang={lang} email={profile.email} links={links} />
+  </main>
+</Base>

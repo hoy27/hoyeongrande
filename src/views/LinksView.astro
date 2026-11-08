@@ -1,0 +1,134 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import LangSwitch from '../components/LangSwitch.astro';
+import LinkButton from '../components/LinkButton.astro';
+import { getLinks, getProfile } from '../lib/data';
+import { localePath, localize, t, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const [profile, links] = await Promise.all([getProfile(), getLinks()]);
+---
+
+<Base
+  lang={lang}
+  page="links"
+  path="links"
+  title={t(lang, 'meta.links.title', { name: profile.name })}
+  description={localize(profile.tagline, lang)}
+>
+  <div class="top">
+    <LangSwitch lang={lang} path="links" />
+  </div>
+  <main class="page">
+    {
+      profile.photo ? (
+        <Image
+          class="avatar"
+          src={profile.photo}
+          alt={localize(profile.photoAlt, lang) ?? profile.name}
+          width={112}
+          height={112}
+          densities={[1, 2, 3]}
+          loading="eager"
+          fetchpriority="high"
+        />
+      ) : (
+        <div class="avatar monogram" aria-hidden="true">
+          {profile.name.slice(0, 1)}
+        </div>
+      )
+    }
+    <h1 class="name">{profile.name}</h1>
+    <p class="tagline">{localize(profile.tagline, lang)}</p>
+
+    <ul class="links">
+      {
+        links.map((link) => (
+          <li>
+            <LinkButton lang={lang} link={link} />
+          </li>
+        ))
+      }
+    </ul>
+
+    <a class="home" href={localePath(lang)}>{t(lang, 'links.home')} →</a>
+  </main>
+</Base>
+
+<style>
+  .top {
+    position: absolute;
+    top: var(--space-2);
+    right: var(--space-2);
+  }
+
+  .page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: calc(30rem + var(--space-4) * 2);
+    min-height: 100svh;
+    margin-inline: auto;
+    padding: var(--space-16) var(--space-4) var(--space-12);
+    text-align: center;
+  }
+
+  .avatar {
+    width: 7rem;
+    height: 7rem;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .monogram {
+    display: grid;
+    place-items: center;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    font-size: 2.5rem;
+    font-weight: 800;
+  }
+
+  .name {
+    margin-top: var(--space-4);
+    font-size: var(--text-xl);
+    font-weight: 900;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .tagline {
+    margin: var(--space-1) 0 0;
+    color: var(--color-muted);
+  }
+
+  .links {
+    display: grid;
+    gap: var(--space-3);
+    width: 100%;
+    margin: var(--space-8) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .home {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    margin-top: var(--space-8);
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+    text-decoration: none;
+  }
+
+  .home:hover {
+    color: var(--color-text);
+  }
+</style>

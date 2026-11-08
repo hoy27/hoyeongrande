@@ -1,0 +1,14 @@
+# 이름, 한 줄 소개, 연락처. "main" 항목 하나만 둔다.
+# photo 는 src/assets/ 안의 이미지 경로 (이 파일 기준 상대 경로). 없으면 지워도 된다.
+# ⚠ 샘플 값이다. 실제 정보로 바꿔야 한다.
+
+main:
+  name: HOYEON
+  tagline:
+    ko: 서울을 기반으로 활동하는 DJ
+    en: DJ based in Seoul
+  email: booking@example.com
+  location: { ko: 서울, en: Seoul }
+  genres: [House, Techno, Disco]
+  photo: ../assets/profile.jpg
+  photoAlt: { ko: "디제잉 중인 HOYEON", en: "HOYEON playing a set" }

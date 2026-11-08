@@ -1,0 +1,88 @@
+---
+import LangSwitch from './LangSwitch.astro';
+import { localePath, t, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  name: string;
+}
+
+const { lang, name } = Astro.props;
+const sections = [
+  { id: 'about', label: t(lang, 'nav.about') },
+  { id: 'career', label: t(lang, 'nav.career') },
+  { id: 'contact', label: t(lang, 'nav.contact') },
+];
+---
+
+<header class="nav">
+  <div class="container inner">
+    <a class="brand" href={localePath(lang)}>{name}</a>
+    <nav class="sections" aria-label="Sections">
+      {sections.map((s) => <a href={`#${s.id}`}>{s.label}</a>)}
+    </nav>
+    <LangSwitch lang={lang} path="" />
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 50;
+    background: color-mix(in srgb, var(--color-bg) 80%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .inner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    height: var(--nav-height);
+  }
+
+  .brand {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    margin-right: auto;
+  }
+
+  .sections {
+    display: flex;
+    gap: var(--space-1);
+  }
+
+  .sections a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding-inline: var(--space-2);
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+    text-decoration: none;
+  }
+
+  .sections a:hover {
+    color: var(--color-text);
+  }
+
+  /* 좁은 화면에서는 이름을 숨기고 섹션 링크 + 언어 전환만 둔다 */
+  @media (max-width: 30rem) {
+    .inner {
+      gap: 0;
+    }
+
+    .brand {
+      display: none;
+    }
+
+    .sections {
+      margin-right: auto;
+      margin-left: calc(var(--space-2) * -1);
+    }
+  }
+</style>

@@ -1,0 +1,105 @@
+---
+import CareerItem from './CareerItem.astro';
+import { CAREER_TYPES } from '../content.config';
+import { groupByType, groupByYear, splitCareer, todayInSeoul, type CareerItem as Item } from '../lib/career';
+import { t, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  items: Item[];
+  /**
+   * 표시 방식 (미정 사항). 둘 다 만들어 두고 HomeView 에서 고른다.
+   * - timeline: Upcoming + 연도별 Past, 항목마다 종류 뱃지
+   * - byType:   Upcoming + 종류별 Past
+   */
+  layout?: 'timeline' | 'byType';
+}
+
+const { lang, items, layout = 'timeline' } = Astro.props;
+const today = todayInSeoul();
+const { upcoming, past } = splitCareer(items, today);
+---
+
+<section id="career" class="section container reveal" aria-labelledby="career-title">
+  <h2 id="career-title" class="section-title">{t(lang, 'career.title')}</h2>
+
+  <div class="group">
+    <h3 class="group-title">{t(lang, 'career.upcoming')}</h3>
+    {
+      upcoming.length > 0 ? (
+        <ul class="list">
+          {upcoming.map((item) => (
+            <CareerItem lang={lang} item={item} today={today} />
+          ))}
+        </ul>
+      ) : (
+        <p class="empty">{t(lang, 'career.empty')}</p>
+      )
+    }
+  </div>
+
+  {
+    past.length > 0 && (
+      <div class="group">
+        <h3 class="group-title">{t(lang, 'career.past')}</h3>
+        {layout === 'timeline'
+          ? groupByYear(past).map((group) => (
+              <div class="sub">
+                <h4 class="sub-title">{group.year}</h4>
+                <ul class="list">
+                  {group.items.map((item) => (
+                    <CareerItem lang={lang} item={item} today={today} />
+                  ))}
+                </ul>
+              </div>
+            ))
+          : groupByType(past, CAREER_TYPES).map((group) => (
+              <div class="sub">
+                <h4 class="sub-title">{t(lang, `career.type.${group.type}`)}</h4>
+                <ul class="list">
+                  {group.items.map((item) => (
+                    <CareerItem lang={lang} item={item} today={today} showType={false} />
+                  ))}
+                </ul>
+              </div>
+            ))}
+      </div>
+    )
+  }
+</section>
+
+<style>
+  .group + .group {
+    margin-top: var(--space-12);
+  }
+
+  .group-title {
+    margin-bottom: var(--space-4);
+    color: var(--color-accent);
+    font-size: var(--text-sm);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .sub + .sub {
+    margin-top: var(--space-8);
+  }
+
+  .sub-title {
+    margin-bottom: var(--space-2);
+    font-size: var(--text-lg);
+    font-weight: 700;
+  }
+
+  .list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .empty {
+    margin: 0;
+    color: var(--color-muted);
+  }
+</style>

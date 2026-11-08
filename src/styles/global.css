@@ -1,0 +1,159 @@
+/*
+ * 색·폰트·간격은 모두 여기 변수로 관리한다.
+ * PDF 포트폴리오를 받으면 이 블록의 값만 바꾸면 된다.
+ */
+:root {
+  --color-bg: #0a0a0a;
+  --color-surface: #161616;
+  --color-border: #2a2a2a;
+  --color-text: #f2f2f2;
+  --color-muted: #8a8a8a; /* #0a0a0a 위 대비 5.9:1 */
+  --color-accent: #e8ff59; /* 임시 강조색. PDF에서 고른 색으로 교체 */
+  --color-accent-text: #0a0a0a;
+
+  --font-body: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui,
+    'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+  --font-display: var(--font-body); /* 영문 제목 폰트. PDF와 비슷한 계열로 교체 */
+
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: clamp(1.75rem, 5vw, 2.5rem);
+  --text-display: clamp(3rem, 15vw, 9rem);
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+
+  --gutter: clamp(1rem, 5vw, 3rem);
+  --content-width: 64rem;
+  --radius: 0.75rem;
+  --nav-height: 3.5rem;
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--nav-height);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+a {
+  color: inherit;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.container {
+  width: 100%;
+  max-width: calc(var(--content-width) + var(--gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: 100;
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-accent);
+  color: var(--color-accent-text);
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+/* 스크롤 페이드인. JS 가 켜져 있고 모션을 줄이지 않은 경우에만 숨겼다가 보여준다. */
+@media (prefers-reduced-motion: no-preference) {
+  .js .reveal {
+    opacity: 0;
+    transform: translateY(1.5rem);
+    transition:
+      opacity 0.7s ease,
+      transform 0.7s ease;
+  }
+
+  .js .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* 소개 페이지 섹션 공통 */
+.section {
+  padding-block: var(--space-16);
+}
+
+.section-title {
+  margin-bottom: var(--space-8);
+  font-size: var(--text-xl);
+  font-weight: 800;
+  text-transform: uppercase;
+}

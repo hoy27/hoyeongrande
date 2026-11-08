@@ -1,0 +1,62 @@
+---
+import { allLangs, localePath, type Lang } from '../i18n/utils';
+import { languages } from '../i18n/ui';
+import { t } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  /** 언어 접두어 없는 현재 경로 ('' = 홈, 'links') */
+  path: string;
+}
+
+const { lang, path } = Astro.props;
+---
+
+<nav class="lang" aria-label={t(lang, 'lang.label')}>
+  {
+    allLangs.map((l) =>
+      l === lang ? (
+        <span class="current" aria-current="page" lang={l}>
+          {languages[l]}
+        </span>
+      ) : (
+        <a href={localePath(l, path)} hreflang={l} lang={l} data-lang-switch={l}>
+          {languages[l]}
+        </a>
+      ),
+    )
+  }
+</nav>
+
+<style>
+  .lang {
+    display: flex;
+    gap: var(--space-1);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+
+  a,
+  .current {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    padding-inline: var(--space-2);
+  }
+
+  a {
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--color-text);
+  }
+
+  .current {
+    color: var(--color-text);
+  }
+</style>

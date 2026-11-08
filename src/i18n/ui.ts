@@ -1,0 +1,65 @@
+export const languages = { ko: 'KO', en: 'EN' } as const;
+export type Lang = keyof typeof languages;
+export const defaultLang: Lang = 'ko';
+
+const ko = {
+  'nav.about': 'About',
+  'nav.career': 'Career',
+  'nav.contact': 'Contact',
+  'nav.links': '링크',
+  'nav.skip': '본문으로 건너뛰기',
+  'lang.label': '언어 선택',
+  'hero.scroll': '아래로 스크롤',
+  'career.title': 'Career',
+  'career.upcoming': 'Upcoming',
+  'career.past': 'Past',
+  'career.ongoing': '진행 중',
+  'career.empty': '예정된 일정이 없습니다.',
+  'career.type.gig': 'Gig',
+  'career.type.residency': 'Residency',
+  'career.type.festival': 'Festival',
+  'career.type.release': 'Release',
+  'career.type.mix': 'Mix',
+  'contact.title': 'Contact',
+  'contact.booking': '부킹 문의',
+  'links.home': '프로필 보기',
+  'meta.home.title': '{name} — DJ',
+  'meta.links.title': '{name} — 링크',
+  'notFound.title': '페이지를 찾을 수 없습니다',
+  'notFound.home': '홈으로',
+  'notFound.links': '링크 페이지',
+  'social.label': '{name}에서 보기',
+};
+
+export type UiKey = keyof typeof ko;
+
+const en: Record<UiKey, string> = {
+  'nav.about': 'About',
+  'nav.career': 'Career',
+  'nav.contact': 'Contact',
+  'nav.links': 'Links',
+  'nav.skip': 'Skip to content',
+  'lang.label': 'Language',
+  'hero.scroll': 'Scroll down',
+  'career.title': 'Career',
+  'career.upcoming': 'Upcoming',
+  'career.past': 'Past',
+  'career.ongoing': 'Ongoing',
+  'career.empty': 'No upcoming dates.',
+  'career.type.gig': 'Gig',
+  'career.type.residency': 'Residency',
+  'career.type.festival': 'Festival',
+  'career.type.release': 'Release',
+  'career.type.mix': 'Mix',
+  'contact.title': 'Contact',
+  'contact.booking': 'Booking',
+  'links.home': 'View profile',
+  'meta.home.title': '{name} — DJ',
+  'meta.links.title': '{name} — Links',
+  'notFound.title': 'Page not found',
+  'notFound.home': 'Home',
+  'notFound.links': 'Links',
+  'social.label': 'Open {name}',
+};
+
+export const ui: Record<Lang, Record<UiKey, string>> = { ko, en };

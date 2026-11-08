@@ -1,0 +1,36 @@
+---
+import { getEntry, render } from 'astro:content';
+import { t, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+// about/en.md 가 없으면 한국어 글을 보여준다
+const entry = (await getEntry('about', lang)) ?? (await getEntry('about', 'ko'));
+const rendered = entry ? await render(entry) : undefined;
+const Content = rendered?.Content;
+---
+
+<section id="about" class="section container reveal" aria-labelledby="about-title">
+  <h2 id="about-title" class="section-title">{t(lang, 'nav.about')}</h2>
+  <div class="prose">{Content && <Content />}</div>
+</section>
+
+<style>
+  .prose {
+    max-width: 40rem;
+    font-size: var(--text-lg);
+    line-height: 1.75;
+  }
+
+  .prose :global(p) {
+    margin: 0 0 var(--space-4);
+  }
+
+  .prose :global(a) {
+    text-decoration-color: var(--color-accent);
+    text-underline-offset: 0.2em;
+  }
+</style>

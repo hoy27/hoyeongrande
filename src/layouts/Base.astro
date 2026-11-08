@@ -1,0 +1,109 @@
+---
+import 'pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css';
+import '../styles/global.css';
+import { allLangs, htmlLang, localePath, ogLocale, otherLang, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  /** GA 이벤트의 page 값, <html data-page> */
+  page: 'home' | 'links' | '404';
+  /** 언어 접두어 없는 경로. 언어별 대체 링크(hreflang)를 만들 때 쓴다. 없으면 대체 링크를 넣지 않는다. */
+  path?: string;
+  title: string;
+  description: string;
+  noindex?: boolean;
+}
+
+const { lang, page, path, title, description, noindex = false } = Astro.props;
+const site = Astro.site ?? new URL(Astro.url.origin);
+const canonical = new URL(Astro.url.pathname, site);
+// public/ 파일 경로 (base 포함)
+const asset = (file: string) => `${import.meta.env.BASE_URL.replace(/\/$/, '')}/${file}`;
+const ogImage = new URL(asset('og.jpg'), site);
+const gaId = import.meta.env.PUBLIC_GA_ID;
+const loadGa = import.meta.env.PROD && Boolean(gaId);
+---
+
+<!doctype html>
+<html lang={htmlLang[lang]} data-page={page}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+
+    {
+      path !== undefined && (
+        <>
+          {allLangs.map((l) => (
+            <link rel="alternate" hreflang={htmlLang[l]} href={new URL(localePath(l, path), site)} />
+          ))}
+          <link rel="alternate" hreflang="x-default" href={new URL(localePath('ko', path), site)} />
+        </>
+      )
+    }
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content={ogLocale[lang]} />
+    <meta property="og:locale:alternate" content={ogLocale[otherLang(lang)]} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" href={asset('favicon.svg')} type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={asset('apple-touch-icon.png')} />
+    <meta name="theme-color" content="#0a0a0a" />
+
+    {
+      loadGa && (
+        <>
+          <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} />
+          <script is:inline define:vars={{ gaId }}>
+            window.dataLayer = window.dataLayer || [];
+            window.gtag = function () {
+              window.dataLayer.push(arguments);
+            };
+            window.gtag('js', new Date());
+            window.gtag('config', gaId);
+          </script>
+        </>
+      )
+    }
+  </head>
+  <body>
+    <slot />
+
+    <script>
+      import { setupClickTracking } from '../lib/analytics';
+
+      setupClickTracking();
+
+      // 스크롤 페이드인
+      const targets = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (!entry.isIntersecting) continue;
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          },
+          { rootMargin: '0px 0px -10% 0px' },
+        );
+        targets.forEach((el) => observer.observe(el));
+      } else {
+        targets.forEach((el) => el.classList.add('is-visible'));
+      }
+    </script>
+  </body>
+</html>
