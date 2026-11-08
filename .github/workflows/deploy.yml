@@ -3,9 +3,6 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
-  # Upcoming/Past 분류를 날짜에 맞게 갱신하려고 매일 한 번 다시 빌드한다 (한국 시간 00:05).
-  schedule:
-    - cron: '5 15 * * *'
   workflow_dispatch:
 
 permissions:

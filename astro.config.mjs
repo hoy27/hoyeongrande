@@ -7,6 +7,13 @@ export default defineConfig({
   site: 'https://hoy27.github.io',
   base: '/hoyeongrande',
   output: 'static',
+  // Media 썸네일(유튜브·사운드클라우드)을 빌드 때 받아서 최적화
+  image: {
+    remotePatterns: [
+      { protocol: 'https', hostname: 'i.ytimg.com' },
+      { protocol: 'https', hostname: '**.sndcdn.com' },
+    ],
+  },
   i18n: {
     locales: ['ko', 'en'],
     defaultLocale: 'ko',

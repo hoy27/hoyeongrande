@@ -1,0 +1,23 @@
+---
+import MediaList from './MediaList.astro';
+import type { MediaItem } from '../lib/data';
+import { t, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  items: MediaItem[];
+}
+
+const { lang, items } = Astro.props;
+---
+
+{
+  items.length > 0 && (
+    <section id="media" class="section container reveal" aria-labelledby="media-title">
+      <h2 id="media-title" class="section-title">
+        {t(lang, 'media.title')}
+      </h2>
+      <MediaList lang={lang} items={items} />
+    </section>
+  )
+}

@@ -1,7 +1,6 @@
 ---
-import { allLangs, localePath, type Lang } from '../i18n/utils';
+import { allLangs, localePath, t, type Lang } from '../i18n/utils';
 import { languages } from '../i18n/ui';
-import { t } from '../i18n/utils';
 
 interface Props {
   lang: Lang;
@@ -12,51 +11,110 @@ interface Props {
 const { lang, path } = Astro.props;
 ---
 
-<nav class="lang" aria-label={t(lang, 'lang.label')}>
-  {
-    allLangs.map((l) =>
-      l === lang ? (
-        <span class="current" aria-current="page" lang={l}>
-          {languages[l]}
-        </span>
-      ) : (
-        <a href={localePath(l, path)} hreflang={l} lang={l} data-lang-switch={l}>
-          {languages[l]}
-        </a>
-      ),
-    )
-  }
-</nav>
+<!-- JS 없이도 열고 닫히는 <details> 드롭다운. 바깥 클릭·Esc 로 닫기는 lib/dropdown.ts -->
+<details class="lang" data-dropdown>
+  <summary aria-label={`${t(lang, 'lang.label')}: ${languages[lang]}`}>
+    <span>{languages[lang]}</span>
+    <svg class="chevron" width="12" height="12" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4"></path>
+    </svg>
+  </summary>
+  <ul class="menu">
+    {
+      allLangs.map((l) => (
+        <li>
+          {l === lang ? (
+            <span class="item current" aria-current="page" lang={l}>
+              {languages[l]}
+            </span>
+          ) : (
+            <a class="item" href={localePath(l, path)} hreflang={l} lang={l} data-lang-switch={l}>
+              {languages[l]}
+            </a>
+          )}
+        </li>
+      ))
+    }
+  </ul>
+</details>
+
 
 <style>
   .lang {
-    display: flex;
-    gap: var(--space-1);
+    position: relative;
+    flex: none;
     font-size: var(--text-sm);
     font-weight: 600;
-    letter-spacing: 0.05em;
   }
 
-  a,
-  .current {
+  summary {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    min-width: 2.75rem;
+    gap: var(--space-1);
     min-height: 2.75rem;
-    padding-inline: var(--space-2);
+    padding-inline: var(--space-3) var(--space-2);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    color: var(--color-text);
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    white-space: nowrap;
   }
 
-  a {
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  summary:hover {
+    border-color: var(--color-muted);
+  }
+
+  .chevron {
+    color: var(--color-muted);
+    transition: transform 0.2s;
+  }
+
+  .lang[open] .chevron {
+    transform: rotate(180deg);
+  }
+
+  .menu {
+    position: absolute;
+    top: calc(100% + var(--space-2));
+    right: 0;
+    z-index: 60;
+    min-width: 100%;
+    margin: 0;
+    padding: var(--space-1);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+    box-shadow: 0 12px 32px rgb(0 0 0 / 0.5);
+    list-style: none;
+  }
+
+  .item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.75rem;
+    padding-inline: var(--space-3);
+    border-radius: calc(var(--radius) - 4px);
     color: var(--color-muted);
     text-decoration: none;
+    white-space: nowrap;
   }
 
-  a:hover {
+  a.item:hover,
+  a.item:focus-visible {
+    background: var(--color-border);
     color: var(--color-text);
   }
 
+  /* 현재 언어: 강조색 블럭 */
   .current {
-    color: var(--color-text);
+    background: var(--color-accent);
+    color: var(--color-accent-text);
   }
 </style>

@@ -1,5 +1,9 @@
 ---
-import 'pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css';
+// 폰트: 영문 제목 Archivo(기울임), 본문·한글 IBM Plex Sans KR. 사이트에 함께 배포(외부 요청 없음)
+import '@fontsource-variable/archivo/wght-italic.css';
+import '@fontsource/ibm-plex-sans-kr/400.css';
+import '@fontsource/ibm-plex-sans-kr/600.css';
+import '@fontsource/ibm-plex-sans-kr/700.css';
 import '../styles/global.css';
 import { allLangs, htmlLang, localePath, ogLocale, otherLang, type Lang } from '../i18n/utils';
 
@@ -84,8 +88,10 @@ const loadGa = import.meta.env.PROD && Boolean(gaId);
 
     <script>
       import { setupClickTracking } from '../lib/analytics';
+      import { setupDropdowns } from '../lib/dropdown';
 
       setupClickTracking();
+      setupDropdowns();
 
       // 스크롤 페이드인
       const targets = document.querySelectorAll('.reveal');

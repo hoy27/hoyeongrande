@@ -10,6 +10,8 @@ interface Props {
 }
 
 const { lang, email, links } = Astro.props;
+// 이메일은 위에 따로 보여주므로 아이콘 줄에서는 뺀다
+const social = links.filter((link) => !link.url.startsWith('mailto:'));
 ---
 
 <section id="contact" class="section container reveal" aria-labelledby="contact-title">
@@ -19,7 +21,7 @@ const { lang, email, links } = Astro.props;
 
   <ul class="social">
     {
-      links.map((link) => {
+      social.map((link) => {
         const label = localize(link.label, lang);
         return (
           <li>
@@ -52,8 +54,11 @@ const { lang, email, links } = Astro.props;
 
   .email {
     font-family: var(--font-display);
-    font-size: var(--text-xl);
+    font-style: italic;
+    /* 긴 주소도 360px 화면에서 한 줄에 들어가는 크기 */
+    font-size: min(5.6vw, 1.5rem);
     font-weight: 700;
+    white-space: nowrap;
     text-decoration: underline;
     text-decoration-color: var(--color-accent);
     text-decoration-thickness: 2px;

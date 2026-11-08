@@ -3,9 +3,10 @@ import Base from '../layouts/Base.astro';
 import Nav from '../components/Nav.astro';
 import Hero from '../components/Hero.astro';
 import About from '../components/About.astro';
+import Media from '../components/Media.astro';
 import Career from '../components/Career.astro';
 import Contact from '../components/Contact.astro';
-import { getCareer, getLinks, getProfile } from '../lib/data';
+import { getCareer, getLinks, getMedia, getProfile } from '../lib/data';
 import { localize, t, type Lang } from '../i18n/utils';
 
 interface Props {
@@ -13,7 +14,12 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const [profile, links, career] = await Promise.all([getProfile(), getLinks(), getCareer()]);
+const [profile, links, media, career] = await Promise.all([
+  getProfile(),
+  getLinks(),
+  getMedia(),
+  getCareer(),
+]);
 ---
 
 <Base
@@ -28,7 +34,8 @@ const [profile, links, career] = await Promise.all([getProfile(), getLinks(), ge
   <main id="main">
     <Hero lang={lang} profile={profile} />
     <About lang={lang} />
-    <!-- Career 표시 방식: layout="timeline" 또는 layout="byType" -->
+    <Media lang={lang} items={media} />
+    <!-- History(경력) 표시 방식: layout="timeline" 또는 layout="byType" -->
     <Career lang={lang} items={career} layout="timeline" />
     <Contact lang={lang} email={profile.email} links={links} />
   </main>

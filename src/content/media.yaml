@@ -1,0 +1,29 @@
+# Media 섹션. 파일에 적힌 순서대로 보인다 (첫 번째 영상이 크게 나온다).
+# platform: youtube | soundcloud
+# 썸네일은 url 에서 자동으로 가져온다. 다른 이미지를 쓰고 싶으면
+#   thumbnail: ../assets/파일이름.jpg  (src/assets/ 안, 이 파일 기준 상대 경로)
+# 출처: HOYEONGRANDE_260618_presskit 8페이지
+
+- id: mnb-launch-mixmix
+  platform: youtube
+  title: "Move Nights Better Launch Party — MIXMIX Live @ XIMXIM BAR"
+  subtitle: "House, Hip-hop, Miami Bass"
+  url: https://www.youtube.com/watch?v=FyveQ1wgLyY
+
+- id: culture-cloud-house
+  platform: youtube
+  title: { ko: "와인바에서 낮술할 때 듣기 좋은 그루브 있는 하우스 믹스셋", en: "Groovy house mix for an afternoon at a wine bar" }
+  subtitle: Culture Cloud
+  url: https://www.youtube.com/watch?v=TrMTlP2osBY
+
+- id: culture-cloud-rnb
+  platform: youtube
+  title: { ko: "드라이브할 때 듣기 좋은 R&B 팝 믹스", en: "R&B pop mix for the drive" }
+  subtitle: Culture Cloud
+  url: https://www.youtube.com/watch?v=PiM4SiY2P-c
+
+- id: wodf-mix
+  platform: soundcloud
+  title: "HOYEONGRANDE WODF MIX"
+  subtitle: SoundCloud
+  url: https://soundcloud.com/hoyeongrande2/hoyeongrande-wodf-mix

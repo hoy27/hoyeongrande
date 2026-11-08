@@ -1,0 +1,234 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import type { MediaItem } from '../lib/data';
+import { localize, t, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  items: MediaItem[];
+}
+
+const { lang, items } = Astro.props;
+// Media 섹션(소개 페이지)과 링크 페이지가 함께 쓰는 목록.
+// 영상은 썸네일 카드(첫 번째는 크게), 음원은 아래에 한 줄씩.
+// 누르면 새 창(휴대폰에서는 유튜브·사운드클라우드 앱)으로 연다. 플레이어를 페이지에 넣지 않아 가볍다.
+const videos = items.filter((item) => item.platform === 'youtube');
+const audios = items.filter((item) => item.platform === 'soundcloud');
+const platformName = { youtube: 'YouTube', soundcloud: 'SoundCloud' } as const;
+// 첫 번째 영상은 전체 폭, 나머지는 반 폭
+const thumbSizes = (index: number) =>
+  index === 0
+    ? { widths: [640, 1280], sizes: '(min-width: 640px) 576px, 90vw' }
+    : { widths: [320, 640], sizes: '(min-width: 640px) 284px, 45vw' };
+---
+
+<div class="media-list">
+  {videos.length > 0 && (
+    <ul class="videos">
+      {videos.map((item, index) => (
+        <li class:list={['video', { lead: index === 0 }]}>
+          <a
+            href={item.url}
+            target="_blank"
+            rel="noopener"
+            data-link-id={`media:${item.id}`}
+            aria-label={`${localize(item.title, lang)} — ${t(lang, 'media.watch', { platform: platformName.youtube })}`}
+          >
+            <div class="thumb">
+              {typeof item.thumb === 'string' ? (
+                <Image src={item.thumb} alt="" inferSize {...thumbSizes(index)} />
+              ) : item.thumb ? (
+                <Image src={item.thumb} alt="" {...thumbSizes(index)} />
+              ) : (
+                <span class="no-thumb" aria-hidden="true">
+                  <Icon name="youtube" size={32} />
+                </span>
+              )}
+              <span class="open" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24">
+                  <path
+                    d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+            </div>
+            <p class="title">{localize(item.title, lang)}</p>
+            {item.subtitle && <p class="meta">{localize(item.subtitle, lang)}</p>}
+          </a>
+        </li>
+      ))}
+    </ul>
+  )}
+
+  {audios.length > 0 && (
+    <ul class="audios">
+      {audios.map((item) => (
+        <li>
+          <a
+            class="audio"
+            href={item.url}
+            target="_blank"
+            rel="noopener"
+            data-link-id={`media:${item.id}`}
+            aria-label={`${localize(item.title, lang)} — ${t(lang, 'media.listen', { platform: platformName.soundcloud })}`}
+          >
+            {typeof item.thumb === 'string' ? (
+              <Image class="art" src={item.thumb} alt="" width={64} height={64} densities={[1, 2, 3]} />
+            ) : item.thumb ? (
+              <Image class="art" src={item.thumb} alt="" width={64} height={64} densities={[1, 2, 3]} />
+            ) : (
+              <span class="art no-thumb" aria-hidden="true">
+                <Icon name="soundcloud" size={24} />
+              </span>
+            )}
+            <span class="audio-text">
+              <span class="title">{localize(item.title, lang)}</span>
+              <span class="meta">{t(lang, 'media.listen', { platform: platformName.soundcloud })}</span>
+            </span>
+            <Icon name="soundcloud" size={22} />
+          </a>
+        </li>
+      ))}
+    </ul>
+  )}
+</div>
+
+<style>
+  .media-list {
+    width: 100%;
+    text-align: left;
+  }
+
+  .videos,
+  .audios {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .videos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6) var(--space-3);
+  }
+
+  .lead {
+    grid-column: 1 / -1;
+  }
+
+  .video a {
+    display: block;
+    text-decoration: none;
+  }
+
+  .thumb {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: var(--radius);
+    background: var(--color-surface);
+  }
+
+  .thumb :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .video a:hover .thumb :global(img) {
+    transform: scale(1.03);
+  }
+
+  .no-thumb {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    background: var(--color-surface);
+    color: var(--color-muted);
+  }
+
+  /* 새 창으로 열기 아이콘 (오른쪽 아래) */
+  .open {
+    position: absolute;
+    right: var(--space-2);
+    bottom: var(--space-2);
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--color-bg) 70%, transparent);
+    color: var(--color-text);
+  }
+
+  .lead .open {
+    right: var(--space-3);
+    bottom: var(--space-3);
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .title {
+    margin: var(--space-3) 0 0;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .lead .title {
+    font-size: var(--text-base);
+  }
+
+  .meta {
+    margin: var(--space-1) 0 0;
+    color: var(--color-muted);
+    font-size: 0.75rem;
+  }
+
+  .audios {
+    margin-top: var(--space-8);
+  }
+
+  .audio {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+    text-decoration: none;
+    transition: border-color 0.2s;
+  }
+
+  .audio:hover {
+    border-color: var(--color-muted);
+  }
+
+  .art {
+    width: 4rem;
+    height: 4rem;
+    flex: none;
+    border-radius: calc(var(--radius) - 4px);
+    object-fit: cover;
+  }
+
+  .audio-text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .audio-text .title {
+    margin: 0;
+  }
+</style>

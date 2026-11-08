@@ -9,13 +9,14 @@ interface Props {
 }
 
 const { lang, link } = Astro.props;
+const external = !link.url.startsWith('mailto:');
 ---
 
 <a
   class:list={['button', { highlight: link.highlight }]}
   href={link.url}
-  target="_blank"
-  rel="noopener"
+  target={external ? '_blank' : undefined}
+  rel={external ? 'noopener' : undefined}
   data-link-id={link.id}
 >
   <Icon name={link.icon} size={20} />

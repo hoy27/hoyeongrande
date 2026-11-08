@@ -1,16 +1,21 @@
-export const languages = { ko: 'KO', en: 'EN' } as const;
+export const languages = { ko: '한국어', en: 'English' } as const;
 export type Lang = keyof typeof languages;
 export const defaultLang: Lang = 'ko';
 
 const ko = {
   'nav.about': 'About',
-  'nav.career': 'Career',
+  'nav.media': 'Media',
+  'nav.history': 'History',
   'nav.contact': 'Contact',
   'nav.links': '링크',
+  'nav.menu': '메뉴',
   'nav.skip': '본문으로 건너뛰기',
   'lang.label': '언어 선택',
   'hero.scroll': '아래로 스크롤',
-  'career.title': 'Career',
+  'history.title': 'History',
+  'media.title': 'Media',
+  'media.watch': '{platform}에서 보기',
+  'media.listen': '{platform}에서 듣기',
   'career.upcoming': 'Upcoming',
   'career.past': 'Past',
   'career.ongoing': '진행 중',
@@ -35,13 +40,18 @@ export type UiKey = keyof typeof ko;
 
 const en: Record<UiKey, string> = {
   'nav.about': 'About',
-  'nav.career': 'Career',
+  'nav.media': 'Media',
+  'nav.history': 'History',
   'nav.contact': 'Contact',
   'nav.links': 'Links',
+  'nav.menu': 'Menu',
   'nav.skip': 'Skip to content',
   'lang.label': 'Language',
   'hero.scroll': 'Scroll down',
-  'career.title': 'Career',
+  'history.title': 'History',
+  'media.title': 'Media',
+  'media.watch': 'Watch on {platform}',
+  'media.listen': 'Listen on {platform}',
   'career.upcoming': 'Upcoming',
   'career.past': 'Past',
   'career.ongoing': 'Ongoing',

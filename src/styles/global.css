@@ -11,15 +11,16 @@
   --color-accent: #e8ff59; /* 임시 강조색. PDF에서 고른 색으로 교체 */
   --color-accent-text: #0a0a0a;
 
-  --font-body: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui,
-    'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
-  --font-display: var(--font-body); /* 영문 제목 폰트. PDF와 비슷한 계열로 교체 */
+  /* 본문·한글: IBM Plex Sans KR (400/600/700). 영문 제목: Archivo 기울임 — 로고의 GRANDE 결 */
+  --font-body: 'IBM Plex Sans KR', -apple-system, BlinkMacSystemFont, system-ui, 'Apple SD Gothic Neo',
+    sans-serif;
+  --font-display: 'Archivo Variable', 'IBM Plex Sans KR', 'Helvetica Neue', Arial, sans-serif;
 
   --text-sm: 0.875rem;
   --text-base: 1rem;
   --text-lg: 1.25rem;
-  --text-xl: clamp(1.75rem, 5vw, 2.5rem);
-  --text-display: clamp(3rem, 15vw, 9rem);
+  --text-xl: min(8vw, 2.25rem);
+  --text-display: min(22vw, 8rem);
 
   --space-1: 0.25rem;
   --space-2: 0.5rem;
@@ -31,8 +32,9 @@
   --space-16: 4rem;
   --space-24: 6rem;
 
-  --gutter: clamp(1rem, 5vw, 3rem);
-  --content-width: 64rem;
+  /* 화면이 넓어도 이 너비의 한 열로 가운데에 둔다 */
+  --page-width: 640px;
+  --gutter: min(6vw, 2rem);
   --radius: 0.75rem;
   --nav-height: 3.5rem;
 
@@ -52,13 +54,17 @@ html {
 }
 
 body {
-  margin: 0;
+  position: relative;
+  max-width: var(--page-width);
+  margin: 0 auto;
   background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-body);
   font-size: var(--text-base);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  /* 기울임체가 없는 한글은 억지로 기울이지 않는다 (영문 Archivo 만 진짜 기울임체) */
+  font-synthesis-style: none;
   overflow-x: clip;
   word-break: keep-all;
   overflow-wrap: anywhere;
@@ -83,6 +89,7 @@ h2,
 h3 {
   margin: 0;
   font-family: var(--font-display);
+  font-style: italic;
   line-height: 1.1;
   letter-spacing: -0.02em;
 }
@@ -94,9 +101,6 @@ h3 {
 }
 
 .container {
-  width: 100%;
-  max-width: calc(var(--content-width) + var(--gutter) * 2);
-  margin-inline: auto;
   padding-inline: var(--gutter);
 }
 

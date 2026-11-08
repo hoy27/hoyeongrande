@@ -1,56 +1,428 @@
 # 경력 목록. 새 항목은 아무 위치에나 추가하면 된다 (빌드 때 날짜순으로 정렬됨).
-# 번역이 필요한 칸은 { ko: ..., en: ... }, 문자열 하나만 쓰면 두 언어 공통.
+# 번역이 필요한 칸은 { ko: ..., en: ... }. en 을 빼면 영어 페이지에도 ko 가 보인다.
+# 문자열 하나만 쓰면 두 언어 공통.
 # type: gig | residency | festival | release | mix
-# ⚠ 아래는 모두 샘플 데이터다. 실제 경력으로 바꿔야 한다.
+# venue = 장소 이름, city = 지역(동네·도시)
+# 출처: HOYEONGRANDE_260618_presskit (2026.06.18)
 
-- id: 2026-12-31-nye
-  date: 2026-12-31
-  type: festival
-  title: { ko: "카운트다운 페스티벌 2027", en: "Countdown Festival 2027" }
-  venue: Sample Arena
-  city: { ko: 서울, en: Seoul }
-  link: https://example.com
+# ── 2026 ──────────────────────────────────────────────
+
+- id: 2026-05-23-mnb-casa-corona
+  date: 2026-05-23
+  type: gig
+  title: "MNB SEOUL Move Nights Better in CASA Corona"
+  venue: { ko: 카사코로나, en: CASA Corona }
+  city: { ko: 이태원, en: Itaewon }
+
+- id: 2026-04-24-mnb-launch
+  date: 2026-04-24
+  type: gig
+  title: "MNB SEOUL Move Nights Better Launch Party"
+  venue: Ximxim
+  city: { ko: 성수, en: Seongsu }
+  link: https://www.youtube.com/watch?v=OEALClGsC28&t=915s
   featured: true
 
-- id: 2026-11-22-sample-club
-  date: 2026-11-22
+- id: 2026-03-21-lst-saint-patricks
+  date: 2026-03-21
   type: gig
-  title: { ko: "나이트 시프트", en: "Night Shift" }
-  venue: Sample Club
+  title: "LST Saint Patrick's Party"
+
+# ── 2025 ──────────────────────────────────────────────
+
+- id: 2025-11-02-daejeon-halloween
+  date: 2025-11-02
+  type: gig
+  title: "Daejeon Halloween Party"
+  venue: { ko: 림버스라운지, en: Limbus Lounge }
+  city: { ko: 대전, en: Daejeon }
+
+- id: 2025-11-01-lst-halloween
+  date: 2025-11-01
+  type: gig
+  title: "LST Halloween Party"
+
+- id: 2025-08-16-last-summer-rave
+  date: 2025-08-16
+  type: gig
+  title: "LAST SUMMER RAVE Powered by LYST"
+  venue: { ko: 림버스라운지, en: Limbus Lounge }
+  city: { ko: 대전, en: Daejeon }
+  featured: true
+
+- id: 2025-08-15-lst-neon
+  date: 2025-08-15
+  type: gig
+  title: "LST Neon Party"
+  venue: { ko: 조인어스, en: Join Us }
+  city: { ko: 양재, en: Yangjae }
+
+- id: 2025-06-22-lst-dance
+  date: 2025-06-22
+  type: gig
+  title: "LST Dance Party"
+  venue: { ko: 힉셀 LED 스튜디오 }
+  city: { ko: 서초, en: Seocho }
+
+- id: 2025-06-14-red-bull-dance
+  date: 2025-06-14
+  type: gig
+  title: "Red Bull Dance Opening DJ"
+  venue: { ko: 코엑스, en: COEX }
   city: { ko: 서울, en: Seoul }
-  link: https://example.com
-  note: { ko: "b2b with Guest DJ", en: "b2b with Guest DJ" }
+  featured: true
 
-- id: residency-2026
-  date: 2026-03-01
-  endDate: 2026-12-31
-  type: residency
-  title: "Monthly Resident"
-  venue: Sample Club
-  city: { ko: 서울, en: Seoul }
+- id: 2025-05-31-lst-white
+  date: 2025-05-31
+  type: gig
+  title: "LST White Party / After Party"
 
-- id: 2026-10-03-guest-mix
-  date: 2026-10-03
-  type: mix
-  title: "Guest Mix for Sample Radio"
-  link: https://example.com
-
-- id: 2026-06-14-sample-ep
-  date: 2026-06-14
-  type: release
-  title: "First EP"
-  note: { ko: "디지털 발매", en: "Digital release" }
-  link: https://example.com
-
-- id: 2025-09-20-sample-festival
-  date: 2025-09-20
+- id: 2025-05-16-hongik-wow-dj
+  date: 2025-05-16
   type: festival
-  title: "Sample Open Air 2025"
-  city: { ko: 부산, en: Busan }
+  title: { ko: "홍익대학교 대동제 와우 디제이 페스티벌", en: "Hongik University Festival — WOW DJ Festival" }
+  venue: { ko: 홍익대학교 T동 앞 특설무대, en: "Hongik University, special stage" }
+  city: { ko: 홍대, en: Hongdae }
+  featured: true
 
-- id: 2025-05-10-sample-bar
+- id: 2025-05-10-culture-cloud-spring
   date: 2025-05-10
   type: gig
-  title: { ko: "첫 공연", en: "Debut Set" }
-  venue: Sample Bar
-  city: { ko: 서울, en: Seoul }
+  title: "Culture Cloud — Spring Cloud"
+  venue: { ko: 여의도한강공원, en: Yeouido Hangang Park }
+  city: { ko: 여의도, en: Yeouido }
+
+- id: 2025-03-08-homes-in-korea
+  date: 2025-03-08
+  type: gig
+  title: { ko: "홈스인코리아 파티", en: "Homes in Korea Party" }
+  venue: { ko: 마익스케빈 }
+  city: { ko: 홍대, en: Hongdae }
+
+- id: 2025-02-01-mellow
+  date: 2025-02-01
+  type: gig
+  title: { ko: "멜로우", en: "Mellow" }
+  city: { ko: 이태원, en: Itaewon }
+
+# ── 2024 ──────────────────────────────────────────────
+
+- id: 2024-11-02-lst-halloween
+  date: 2024-11-02
+  type: gig
+  title: "LST Halloween Party"
+
+- id: 2024-10-27-lst-halloween
+  date: 2024-10-27
+  type: gig
+  title: "LST Halloween Party"
+
+- id: 2024-09-29-lst-dance
+  date: 2024-09-29
+  type: gig
+  title: "LST Dance Party"
+
+- id: 2024-09-07-culture-cloud-wild-oasis
+  date: 2024-09-07
+  type: gig
+  title: "Culture Cloud — Wild Oasis"
+  venue: { ko: 부르 }
+  city: { ko: 언주, en: Eonju }
+
+- id: 2024-08-22-corporate
+  date: 2024-08-22
+  type: gig
+  title: { ko: "기업 행사", en: "Corporate Event" }
+  venue: { ko: 부르 }
+  city: { ko: 언주, en: Eonju }
+
+- id: 2024-07-27-lst-neon
+  date: 2024-07-27
+  type: gig
+  title: "LST Neon Party 1st"
+  venue: { ko: 조인어스, en: Join Us }
+  city: { ko: 양재, en: Yangjae }
+
+- id: 2024-06-14-chillax-friday
+  date: 2024-06-14
+  type: gig
+  title: "Chillax Friday House Party"
+  venue: { ko: 파티로프트, en: Party Loft }
+  city: { ko: 서울대입구, en: Seoul Nat'l Univ. Station }
+
+- id: 2024-06-08-grime-jagermeister
+  date: 2024-06-08
+  type: gig
+  title: "Grime Party w/ Jägermeister"
+  venue: RTR Lounge
+  city: { ko: 녹사평, en: Noksapyeong }
+
+- id: 2024-04-11-thirsty-thursday
+  date: 2024-04-11
+  type: gig
+  title: "Thirsty Thursday House Party"
+  venue: { ko: 파티로프트, en: Party Loft }
+  city: { ko: 서울대입구, en: Seoul Nat'l Univ. Station }
+
+- id: 2024-02-29-chorda-birthday
+  date: 2024-02-29
+  type: gig
+  title: "Chorda's Birthday Party"
+  venue: SOBER
+  city: { ko: 홍대, en: Hongdae }
+
+- id: 2024-02-29-thirsty-thursday
+  date: 2024-02-29
+  type: gig
+  title: "Thirsty Thursday House Party"
+  venue: { ko: 파티로프트, en: Party Loft }
+  city: { ko: 서울대입구, en: Seoul Nat'l Univ. Station }
+
+- id: 2024-02-24-culture-cloud-hwayangyeonhwa
+  date: 2024-02-24
+  type: gig
+  title: { ko: "Culture Cloud 화양연화 파티", en: "Culture Cloud — Hwayangyeonhwa Party" }
+  venue: { ko: 청킹마마, en: Chungking Mama }
+  city: { ko: 종로, en: Jongno }
+
+- id: 2024-02-17-lst-dance-the-night
+  date: 2024-02-17
+  type: gig
+  title: "LST Dance The Night Performance / After Party"
+  venue: { ko: 스튜디오 몽, en: Studio Mong }
+  city: { ko: 낙성대, en: Nakseongdae }
+
+- id: 2024-02-03-grime-3rd
+  date: 2024-02-03
+  type: gig
+  title: "Grime Crew 3rd Party"
+  venue: Vassment
+  city: { ko: 압구정로데오, en: Apgujeong Rodeo }
+
+- id: 2024-01-27-lst-all-star-after
+  date: 2024-01-27
+  type: gig
+  title: "LST All-Star DJ After Party"
+
+# ── 2023 ──────────────────────────────────────────────
+
+- id: 2023-12-23-lst-christmas
+  date: 2023-12-23
+  type: gig
+  title: "LST Christmas Night"
+  venue: { ko: 카페놀다, en: Cafe Nolda }
+  city: { ko: 양재, en: Yangjae }
+
+- id: 2023-12-14-lst-thirsty-thursday
+  date: 2023-12-14
+  type: gig
+  title: "LST Thirsty Thursday House Party"
+  venue: { ko: 파티로프트, en: Party Loft }
+  city: { ko: 서울대입구, en: Seoul Nat'l Univ. Station }
+
+- id: 2023-11-26-lst-thanksgiving
+  date: 2023-11-26
+  type: gig
+  title: "LST Turkey Twerky Thanksgiving Party"
+  venue: { ko: 카페놀다, en: Cafe Nolda }
+  city: { ko: 양재, en: Yangjae }
+
+- id: 2023-11-08-seoul-cafe-show
+  date: 2023-11-08
+  endDate: 2023-11-10
+  type: gig
+  title: { ko: "서울카페쇼 프레소 부스 사일런트 디스코", en: "Seoul Cafe Show — Presso Booth Silent Disco" }
+  venue: { ko: 코엑스몰, en: COEX Mall }
+  city: { ko: 삼성, en: Samseong }
+  note: { ko: "11월 8일, 10일 이틀", en: "Nov 8 and Nov 10" }
+
+- id: 2023-10-28-lst-spooky-halloween
+  date: 2023-10-28
+  type: gig
+  title: "LST Spooky Halloween Party"
+  venue: { ko: 라이트룸, en: Light Room }
+  city: { ko: 압구정로데오, en: Apgujeong Rodeo }
+
+- id: 2023-10-07-grime-2nd
+  date: 2023-10-07
+  type: gig
+  title: "Grime 2nd Party"
+  venue: The Box
+  city: { ko: 잠실새내, en: Jamsilsaenae }
+
+- id: 2023-09-23-daehipyeon
+  date: 2023-09-23
+  type: gig
+  title: { ko: "대힙연 (대전 힙합 동아리 연합 공연)", en: "Daejeon Hip-hop Club Union Show" }
+  venue: HOWDEEP
+  city: { ko: 대전 둔산동, en: "Dunsan-dong, Daejeon" }
+
+- id: 2023-09-22-tony-birthday
+  date: 2023-09-22
+  type: gig
+  title: "Tony's Birthday Party"
+  venue: { ko: 뮤트 스페이스, en: Mute Space }
+  city: { ko: 신림, en: Sillim }
+
+- id: 2023-08-19-lst-lba-all-star
+  date: 2023-08-19
+  type: gig
+  title: "LST LBA All-Star 2023 + After Party"
+  venue: { ko: 강남스포츠문화센터, en: Gangnam Sports & Culture Center }
+  city: { ko: 강남, en: Gangnam }
+
+- id: 2023-08-04-lst-edm
+  date: 2023-08-04
+  type: gig
+  title: "LST EDM DJ Party feat. Dance Crew"
+  venue: { ko: 뮤트 스페이스, en: Mute Space }
+  city: { ko: 신림, en: Sillim }
+
+- id: 2023-07-01-lst-byob
+  date: 2023-07-01
+  type: gig
+  title: "LST BYOB: Summer Vacation Party for Gen-Z"
+  venue: { ko: 소디스펍 }
+  city: { ko: 서울대입구, en: Seoul Nat'l Univ. Station }
+
+- id: 2023-05-19-grime-buriedalive
+  date: 2023-05-19
+  type: gig
+  title: "GRIME × BURIEDALIVE 1st Party"
+  venue: { ko: 버튼스, en: Buttons }
+  city: { ko: 신사, en: Sinsa }
+
+- id: 2023-04-08-rooftop
+  date: 2023-04-08
+  type: gig
+  title: "Rooftop DJ Party"
+  city: { ko: 역삼, en: Yeoksam }
+
+- id: 2023-01-13-private-birthday
+  date: 2023-01-13
+  type: gig
+  title: "Private DJ w/ Secret B-Day Party"
+  venue: { ko: 듀얼라운지, en: Dual Lounge }
+  city: { ko: 역삼, en: Yeoksam }
+
+# ── 2018 ~ 2022 ───────────────────────────────────────
+
+- id: 2022-11-18-rebirth
+  date: 2022-11-18
+  type: gig
+  title: "RE: BIRTH"
+  venue: { ko: 림버스라운지, en: Limbus Lounge }
+  city: { ko: 대전, en: Daejeon }
+
+- id: 2022-10-27-hanbat-pocha
+  date: 2022-10-27
+  type: gig
+  title: { ko: "한밭대학교 축제 포라하포차 부스", en: "Hanbat National University Festival — Pocha Booth" }
+  city: { ko: 대전, en: Daejeon }
+
+- id: 2022-09-16-gansung-vol2
+  date: 2022-09-16
+  type: gig
+  title: { ko: "간성혼수 DJ Party Vol. 2" }
+  venue: { ko: 아지트, en: Azit }
+  city: { ko: 상수, en: Sangsu }
+
+- id: 2022-08-12-weird-bears
+  date: 2022-08-12
+  type: gig
+  title: "Weird Bears NFT Release Party"
+  venue: { ko: 코트 }
+  city: { ko: 인사동, en: Insa-dong }
+
+- id: 2022-07-22-gansung-vol1
+  date: 2022-07-22
+  type: gig
+  title: { ko: "간성혼수 DJ Party Vol. 1" }
+  venue: { ko: 아지트, en: Azit }
+  city: { ko: 상수, en: Sangsu }
+
+- id: 2022-06-24-yuseong-djing
+  date: 2022-06-24
+  type: gig
+  title: "Yuseong DJing Champions League"
+  venue: Vinyl 042
+  city: { ko: 대전, en: Daejeon }
+
+- id: 2022-04-02-after-school-highball
+  date: 2022-04-02
+  type: gig
+  title: "After School Highball"
+  venue: Vinyl 042
+  city: { ko: 대전, en: Daejeon }
+
+- id: 2022-03-19-opctverse
+  date: 2022-03-19
+  type: gig
+  title: "OPCTVERSE HIPGAROO'S RAVE & GATHERING"
+  venue: { ko: 옵트버스, en: Opctverse }
+  city: { ko: 강남, en: Gangnam }
+  note: { ko: 프라이빗 파티, en: Private party }
+
+- id: 2021-11-25-hanbat-festival
+  date: 2021-11-25
+  type: festival
+  title: { ko: "한밭대학교 대동제", en: "Hanbat National University Festival" }
+  venue: { ko: 한밭대학교 아트홀, en: Hanbat National University Art Hall }
+  city: { ko: 대전, en: Daejeon }
+
+- id: 2020-11-29-hanbat-online-festival
+  date: 2020-11-29
+  type: festival
+  title: { ko: "한밭대학교 온라인 커뮤니케이션 문화제", en: "Hanbat National University Online Culture Festival" }
+  venue: { ko: 한밭대학교 아트홀, en: Hanbat National University Art Hall }
+  city: { ko: 대전, en: Daejeon }
+  link: https://youtu.be/0gwBF1uMJWM?t=3438
+
+- id: 2020-04-19-rec-internet-war
+  date: 2020-04-19
+  type: gig
+  title: "REC Community INTERNET WAR"
+  venue: Vent Daejeon
+  city: { ko: 대전, en: Daejeon }
+
+- id: 2019-09-07-rec-chill-city
+  date: 2019-09-07
+  type: gig
+  title: "REC CHILL & CITY"
+  venue: { ko: 몽, en: Mong }
+  city: { ko: 대전 대흥동, en: "Daeheung-dong, Daejeon" }
+
+- id: 2019-07-29-totojeul
+  date: 2019-07-29
+  type: festival
+  title: { ko: "대전 토토즐 페스티벌", en: "Daejeon Totojeul Festival" }
+  venue: { ko: 스카이로드, en: Sky Road }
+  city: { ko: 대전 은행동, en: "Eunhaeng-dong, Daejeon" }
+
+- id: 2019-06-16-rec-take-1
+  date: 2019-06-16
+  type: gig
+  title: "REC Community TAKE #1"
+  venue: { ko: 몽, en: Mong }
+  city: { ko: 대전 대흥동, en: "Daeheung-dong, Daejeon" }
+
+- id: 2019-05-24-hanbat-festival
+  date: 2019-05-24
+  type: festival
+  title: { ko: "한밭대학교 대동제 무대공연", en: "Hanbat National University Festival — Main Stage" }
+  venue: { ko: 한밭대학교 운동장, en: Hanbat National University Field }
+  city: { ko: 대전, en: Daejeon }
+
+- id: 2019-03-19-hanbat-club-festival
+  date: 2019-03-19
+  type: festival
+  title: { ko: "한밭대학교 동아리 페스티벌 공연", en: "Hanbat National University Club Festival" }
+  venue: { ko: 한밭대학교 광장, en: Hanbat National University Plaza }
+  city: { ko: 대전, en: Daejeon }
+
+- id: 2018-09-29-vent-bedroom-002
+  date: 2018-09-29
+  type: gig
+  title: "Vent Daejeon Bedroom DJ Party #002"
+  venue: Vent Daejeon
+  city: { ko: 대전, en: Daejeon }

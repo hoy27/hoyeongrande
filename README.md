@@ -8,7 +8,8 @@ HTML은 건드리지 않고 아래 파일만 고친다. `main`에 push하면 자
 
 | 바꿀 것 | 파일 |
 | --- | --- |
-| 경력 추가 | `src/content/career.yaml` |
+| 공연 이력(History) 추가 | `src/content/career.yaml` |
+| 영상·믹스셋(Media) | `src/content/media.yaml` (주소만 적으면 썸네일은 자동) |
 | 링크 버튼 | `src/content/links.yaml` |
 | 이름·한 줄 소개·이메일·장르·사진 | `src/content/profile.yaml` |
 | 소개 글 | `src/content/about/ko.md`, `en.md` |
@@ -31,7 +32,9 @@ npm run build    # 타입 검사 + 빌드
 
 ## 배포
 
-`.github/workflows/deploy.yml` 이 `main` push와 매일 00:05(KST)에 빌드·배포한다.
+`.github/workflows/deploy.yml` 이 `main` 에 push 할 때마다 빌드·배포한다. (Actions 탭에서 수동 실행도 가능)
+
+공연 날짜가 지나도 Upcoming → Past 이동은 다음 push(빌드) 때 반영된다.
 
 - 저장소 Settings → Pages → Source: **GitHub Actions**
 - GA4: Settings → Secrets and variables → Actions → Variables 에 `GA_ID` (`G-XXXXXXX`)

@@ -3,7 +3,8 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import LangSwitch from '../components/LangSwitch.astro';
 import LinkButton from '../components/LinkButton.astro';
-import { getLinks, getProfile } from '../lib/data';
+import MediaList from '../components/MediaList.astro';
+import { getLinks, getMedia, getProfile } from '../lib/data';
 import { localePath, localize, t, type Lang } from '../i18n/utils';
 
 interface Props {
@@ -11,7 +12,9 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const [profile, links] = await Promise.all([getProfile(), getLinks()]);
+const [profile, links, media] = await Promise.all([getProfile(), getLinks(), getMedia()]);
+const avatar = profile.avatar ?? profile.photo;
+const avatarAlt = localize(profile.avatar ? profile.avatarAlt : profile.photoAlt, lang) ?? profile.name;
 ---
 
 <Base
@@ -26,11 +29,11 @@ const [profile, links] = await Promise.all([getProfile(), getLinks()]);
   </div>
   <main class="page">
     {
-      profile.photo ? (
+      avatar ? (
         <Image
           class="avatar"
-          src={profile.photo}
-          alt={localize(profile.photoAlt, lang) ?? profile.name}
+          src={avatar}
+          alt={avatarAlt}
           width={112}
           height={112}
           densities={[1, 2, 3]}
@@ -44,7 +47,15 @@ const [profile, links] = await Promise.all([getProfile(), getLinks()]);
       )
     }
     <h1 class="name">{profile.name}</h1>
-    <p class="tagline">{localize(profile.tagline, lang)}</p>
+    <p class="tagline">{profile.linksTagline ? localize(profile.linksTagline, lang) : ""}</p>
+
+    {
+      media.length > 0 && (
+        <div class="media">
+          <MediaList lang={lang} items={media} />
+        </div>
+      )
+    }
 
     <ul class="links">
       {
@@ -85,6 +96,7 @@ const [profile, links] = await Promise.all([getProfile(), getLinks()]);
     height: 7rem;
     border-radius: 50%;
     object-fit: cover;
+    object-position: 50% 20%;
   }
 
   .monogram {
@@ -105,8 +117,15 @@ const [profile, links] = await Promise.all([getProfile(), getLinks()]);
   }
 
   .tagline {
+    /* 문구가 비어 있어도 한 줄 높이를 유지해 레이아웃이 바뀌지 않게 */
+    min-height: 1lh;
     margin: var(--space-1) 0 0;
     color: var(--color-muted);
+  }
+
+  .media {
+    width: 100%;
+    margin-top: var(--space-8);
   }
 
   .links {

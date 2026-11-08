@@ -72,11 +72,31 @@ const profile = defineCollection({
       .object({
         name: z.string().min(1),
         tagline: text,
+        /** 링크 페이지 이름 아래 문구. 빈 문자열이면 줄 높이만 남기고 비워 둔다 */
+        linksTagline: z.union([z.literal(''), text]).default(''),
         email: z.email(),
         location: text.optional(),
         genres: z.array(z.string()).default([]),
         photo: image().optional(),
         photoAlt: text.optional(),
+        avatar: image().optional(),
+        avatarAlt: text.optional(),
+      })
+      .strict(),
+});
+
+const media = defineCollection({
+  loader: yamlFile('src/content/media.yaml'),
+  schema: ({ image }) =>
+    z
+      .object({
+        id: z.string().min(1),
+        platform: z.enum(['youtube', 'soundcloud']),
+        title: text,
+        subtitle: text.optional(),
+        url: z.url(),
+        /** 비우면 영상·음원 주소에서 자동으로 가져온다 */
+        thumbnail: image().optional(),
       })
       .strict(),
 });
@@ -85,4 +105,4 @@ const about = defineCollection({
   loader: glob({ pattern: '*.md', base: './src/content/about' }),
 });
 
-export const collections = { career, links, profile, about };
+export const collections = { career, links, media, profile, about };

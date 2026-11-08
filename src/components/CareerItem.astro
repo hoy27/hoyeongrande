@@ -43,9 +43,10 @@ const ongoing = isOngoing(item, today);
 </li>
 
 <style>
+  /* 날짜·뱃지 한 줄, 그 아래 제목 */
   .item {
     display: grid;
-    grid-template-columns: 7.5rem 1fr auto;
+    grid-template-columns: 1fr auto;
     gap: var(--space-1) var(--space-4);
     align-items: baseline;
     padding-block: var(--space-4);
@@ -103,15 +104,8 @@ const ongoing = isOngoing(item, today);
     color: var(--color-accent);
   }
 
-  /* 모바일: 날짜와 뱃지를 한 줄, 제목을 아래 줄에 */
-  @media (max-width: 40rem) {
-    .item {
-      grid-template-columns: 1fr auto;
-    }
-
-    .body {
-      grid-column: 1 / -1;
-      grid-row: 2;
-    }
+  .body {
+    grid-column: 1 / -1;
+    grid-row: 2;
   }
 </style>
