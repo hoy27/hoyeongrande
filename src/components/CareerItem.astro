@@ -18,14 +18,30 @@ const note = localize(item.note, lang);
 const ongoing = isOngoing(item, today);
 ---
 
-<li class:list={['item', { featured: item.featured }]}>
+<!-- data-start/end/type: 페이지가 열릴 때 지난 공연을 Upcoming 에서 옮기는 스크립트(Career.astro)가 쓴다 -->
+<li
+  class:list={['item', { featured: item.featured }]}
+  data-start={item.date}
+  data-end={item.endDate ?? item.date}
+  data-type={item.type}
+>
   <time class="date" datetime={item.date}>{formatDateRange(item, lang)}</time>
   <div class="body">
     <p class="title">
       {
         item.link ? (
           <a href={item.link} target="_blank" rel="noopener" data-link-id={`career:${item.id}`}>
-            {title}
+            <span class="link-text">{title}</span>
+            {/* 새 창 아이콘: 글자처럼 제목 끝에 붙고, 줄이 바뀌면 함께 다음 줄로 */}
+            <svg class="external" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </svg>
             <span class="visually-hidden"> (new tab)</span>
           </a>
         ) : (
@@ -37,8 +53,16 @@ const ongoing = isOngoing(item, today);
     {note && <p class="meta">{note}</p>}
   </div>
   <div class="tags">
-    {ongoing && <span class="tag tag-live">{t(lang, 'career.ongoing')}</span>}
-    {showType && <span class="tag">{t(lang, `career.type.${item.type}`)}</span>}
+    <span class="tag tag-live" data-ongoing hidden={!ongoing}>
+      {t(lang, 'career.ongoing')}
+    </span>
+    {
+      showType && (
+        <span class="tag" data-type-tag>
+          {t(lang, `career.type.${item.type}`)}
+        </span>
+      )
+    }
   </div>
 </li>
 
@@ -64,18 +88,30 @@ const ongoing = isOngoing(item, today);
     font-weight: 600;
   }
 
+  /* 강조(featured) 공연: 크기는 같고 제목만 강조색 */
   .featured .title {
-    font-size: var(--text-lg);
+    color: var(--color-accent);
   }
 
+  /* 링크가 있는 제목: 항상 밑줄 + 끝에 새 창 아이콘 */
   .title a {
     text-decoration: none;
   }
 
-  .title a:hover {
+  .link-text {
     text-decoration: underline;
-    text-decoration-color: var(--color-accent);
+    text-decoration-thickness: 1px;
     text-underline-offset: 0.2em;
+  }
+
+  .external {
+    display: inline-block;
+    margin-left: 0.3em;
+    vertical-align: -0.1em;
+  }
+
+  .title a:hover .link-text {
+    text-decoration-thickness: 2px;
   }
 
   .meta {

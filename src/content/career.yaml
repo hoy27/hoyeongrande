@@ -7,12 +7,20 @@
 
 # ── 2026 ──────────────────────────────────────────────
 
+- id: 2026-11-14-red-bull-unforeseen
+  date: 2026-11-14
+  type: festival
+  title: "Red Bull Unforeseen 2026"
+  venue: { ko: 속초 중앙시장, en: Sokcho Jungang Market }
+  city: { ko: 속초, en: Sokcho }
+
 - id: 2026-05-23-mnb-casa-corona
   date: 2026-05-23
   type: gig
   title: "MNB SEOUL Move Nights Better in CASA Corona"
   venue: { ko: 카사코로나, en: CASA Corona }
   city: { ko: 이태원, en: Itaewon }
+  featured: true
 
 - id: 2026-04-24-mnb-launch
   date: 2026-04-24
@@ -48,7 +56,6 @@
   title: "LAST SUMMER RAVE Powered by LYST"
   venue: { ko: 림버스라운지, en: Limbus Lounge }
   city: { ko: 대전, en: Daejeon }
-  featured: true
 
 - id: 2025-08-15-lst-neon
   date: 2025-08-15
@@ -70,7 +77,6 @@
   title: "Red Bull Dance Opening DJ"
   venue: { ko: 코엑스, en: COEX }
   city: { ko: 서울, en: Seoul }
-  featured: true
 
 - id: 2025-05-31-lst-white
   date: 2025-05-31
@@ -198,6 +204,7 @@
   title: "Grime Crew 3rd Party"
   venue: Vassment
   city: { ko: 압구정로데오, en: Apgujeong Rodeo }
+  featured: true
 
 - id: 2024-01-27-lst-all-star-after
   date: 2024-01-27
@@ -291,6 +298,7 @@
   title: "GRIME × BURIEDALIVE 1st Party"
   venue: { ko: 버튼스, en: Buttons }
   city: { ko: 신사, en: Sinsa }
+  featured: true
 
 - id: 2023-04-08-rooftop
   date: 2023-04-08
@@ -398,6 +406,7 @@
   title: { ko: "대전 토토즐 페스티벌", en: "Daejeon Totojeul Festival" }
   venue: { ko: 스카이로드, en: Sky Road }
   city: { ko: 대전 은행동, en: "Eunhaeng-dong, Daejeon" }
+  featured: true
 
 - id: 2019-06-16-rec-take-1
   date: 2019-06-16
@@ -412,6 +421,7 @@
   title: { ko: "한밭대학교 대동제 무대공연", en: "Hanbat National University Festival — Main Stage" }
   venue: { ko: 한밭대학교 운동장, en: Hanbat National University Field }
   city: { ko: 대전, en: Daejeon }
+  featured: true
 
 - id: 2019-03-19-hanbat-club-festival
   date: 2019-03-19

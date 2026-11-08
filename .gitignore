@@ -21,3 +21,6 @@ npm-debug.log*
 
 # 원본 자료 (용량이 크고 개인 자료라 저장소에 올리지 않음)
 *.pdf
+
+# 원본 사진 (사이트에는 줄인 사본 src/assets/hero.jpg 를 쓴다)
+src/assets/IMG_8094.JPG

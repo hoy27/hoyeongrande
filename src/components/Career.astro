@@ -18,6 +18,10 @@ interface Props {
 const { lang, items, layout = 'timeline' } = Astro.props;
 const today = todayInSeoul();
 const { upcoming, past } = splitCareer(items, today);
+const typeLabels = Object.fromEntries(CAREER_TYPES.map((type) => [type, t(lang, `career.type.${type}`)]));
+
+// 연도별 목록은 접고 펼 수 있다. 이 연도부터는 처음에 펼쳐 두고, 이전 연도는 접어 둔다.
+const OPEN_FROM_YEAR = 2023;
 ---
 
 <section id="history" class="section container reveal" aria-labelledby="history-title">
@@ -25,48 +29,117 @@ const { upcoming, past } = splitCareer(items, today);
 
   <div class="group">
     <h3 class="group-title">{t(lang, 'career.upcoming')}</h3>
+    <ul class="list" data-upcoming hidden={upcoming.length === 0}>
+      {upcoming.map((item) => <CareerItem lang={lang} item={item} today={today} />)}
+    </ul>
+    <p class="empty" data-upcoming-empty hidden={upcoming.length > 0}>
+      {t(lang, 'career.empty')}
+    </p>
+  </div>
+
+  <div
+    class="group"
+    data-past
+    data-layout={layout}
+    data-order={JSON.stringify(CAREER_TYPES)}
+    data-labels={JSON.stringify(typeLabels)}
+    hidden={past.length === 0}
+  >
     {
-      upcoming.length > 0 ? (
-        <ul class="list">
-          {upcoming.map((item) => (
-            <CareerItem lang={lang} item={item} today={today} />
-          ))}
-        </ul>
-      ) : (
-        <p class="empty">{t(lang, 'career.empty')}</p>
-      )
+      layout === 'timeline'
+        ? groupByYear(past).map((group) => (
+            <details class="sub" data-key={group.year} open={Number(group.year) >= OPEN_FROM_YEAR}>
+              <summary class="sub-title">
+                <span class="sub-label">{group.year}</span>
+                <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4"></path></svg>
+              </summary>
+              <ul class="list">
+                {group.items.map((item) => (
+                  <CareerItem lang={lang} item={item} today={today} />
+                ))}
+              </ul>
+            </details>
+          ))
+        : groupByType(past, CAREER_TYPES).map((group) => (
+            <details class="sub" data-key={group.type} open>
+              <summary class="sub-title">
+                <span class="sub-label">{typeLabels[group.type]}</span>
+                <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4"></path></svg>
+              </summary>
+              <ul class="list">
+                {group.items.map((item) => (
+                  <CareerItem lang={lang} item={item} today={today} showType={false} />
+                ))}
+              </ul>
+            </details>
+          ))
     }
   </div>
 
-  {
-    past.length > 0 && (
-      <div class="group">
-        <h3 class="group-title">{t(lang, 'career.past')}</h3>
-        {layout === 'timeline'
-          ? groupByYear(past).map((group) => (
-              <div class="sub">
-                <h4 class="sub-title">{group.year}</h4>
-                <ul class="list">
-                  {group.items.map((item) => (
-                    <CareerItem lang={lang} item={item} today={today} />
-                  ))}
-                </ul>
-              </div>
-            ))
-          : groupByType(past, CAREER_TYPES).map((group) => (
-              <div class="sub">
-                <h4 class="sub-title">{t(lang, `career.type.${group.type}`)}</h4>
-                <ul class="list">
-                  {group.items.map((item) => (
-                    <CareerItem lang={lang} item={item} today={today} showType={false} />
-                  ))}
-                </ul>
-              </div>
-            ))}
-      </div>
-    )
-  }
+  <!-- 새 연도(종류) 묶음이 필요할 때 스크립트가 복제해서 쓰는 틀 -->
+  <template data-sub-template>
+    <details class="sub" open>
+      <summary class="sub-title">
+        <span class="sub-label"></span>
+        <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4"></path></svg>
+      </summary>
+      <ul class="list"></ul>
+    </details>
+  </template>
 </section>
+
+<script>
+  // 사이트는 빌드할 때의 날짜로 Upcoming/연도별 목록을 나눠 둔다.
+  // 그 뒤로 날짜가 지나도 다시 빌드하지 않아도 되도록, 방문자 브라우저에서
+  // 오늘(한국 시간) 기준으로 끝난 공연을 Upcoming 에서 연도별 목록으로 옮긴다.
+  import { todayInSeoul } from '../lib/career';
+
+  const section = document.querySelector<HTMLElement>('#history');
+  const upcomingList = section?.querySelector<HTMLUListElement>('[data-upcoming]');
+  const emptyText = section?.querySelector<HTMLElement>('[data-upcoming-empty]');
+  const pastGroup = section?.querySelector<HTMLElement>('[data-past]');
+  const template = section?.querySelector<HTMLTemplateElement>('template[data-sub-template]');
+
+  if (upcomingList && emptyText && pastGroup && template) {
+    const today = todayInSeoul();
+    const byType = pastGroup.dataset.layout === 'byType';
+    const typeOrder: string[] = JSON.parse(pastGroup.dataset.order ?? '[]');
+    const labels: Record<string, string> = JSON.parse(pastGroup.dataset.labels ?? '{}');
+
+    // 묶음 순서: 연도는 최신이 위, 종류는 정해진 순서
+    const comesBefore = (a: string, b: string) =>
+      byType ? typeOrder.indexOf(a) < typeOrder.indexOf(b) : a > b;
+
+    const findOrCreateSub = (key: string) => {
+      const subs = [...pastGroup.querySelectorAll<HTMLElement>(':scope > .sub')];
+      const existing = subs.find((sub) => sub.dataset.key === key);
+      if (existing) return existing;
+      const sub = template.content.firstElementChild!.cloneNode(true) as HTMLElement;
+      sub.dataset.key = key;
+      sub.querySelector('.sub-label')!.textContent = byType ? (labels[key] ?? key) : key;
+      pastGroup.insertBefore(sub, subs.find((s) => comesBefore(key, s.dataset.key ?? '')) ?? null);
+      return sub;
+    };
+
+    for (const li of [...upcomingList.querySelectorAll<HTMLLIElement>(':scope > li[data-end]')]) {
+      const { start = '', end = '', type = '' } = li.dataset;
+      const ongoingTag = li.querySelector<HTMLElement>('[data-ongoing]');
+      if (ongoingTag) ongoingTag.hidden = !(start <= today && end >= today);
+      if (end >= today) continue; // 아직 안 끝남
+
+      const list = findOrCreateSub(byType ? type : start.slice(0, 4)).querySelector('ul')!;
+      if (byType) li.querySelector('[data-type-tag]')?.remove();
+      // 같은 묶음 안에서는 최신이 위
+      const next = [...list.children].find((other) => ((other as HTMLElement).dataset.start ?? '') < start);
+      list.insertBefore(li, next ?? null);
+      pastGroup.hidden = false;
+    }
+
+    const noneLeft = upcomingList.children.length === 0;
+    upcomingList.hidden = noneLeft;
+    emptyText.hidden = !noneLeft;
+  }
+</script>
 
 <style>
   .group + .group {
@@ -81,14 +154,45 @@ const { upcoming, past } = splitCareer(items, today);
     text-transform: uppercase;
   }
 
+  /* 연도별 묶음: 연도 줄을 눌러 접고 편다 */
   .sub + .sub {
-    margin-top: var(--space-8);
+    margin-top: var(--space-2);
   }
 
   .sub-title {
-    margin-bottom: var(--space-2);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 3rem;
     font-size: var(--text-lg);
     font-weight: 700;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+  }
+
+  .sub-title::-webkit-details-marker {
+    display: none;
+  }
+
+  .chevron {
+    margin-left: auto;
+    color: var(--color-muted);
+    transition: transform 0.2s;
+  }
+
+  .sub[open] .chevron {
+    transform: rotate(180deg);
+  }
+
+  .sub[open] {
+    margin-bottom: var(--space-6);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .chevron {
+      transition: none;
+    }
   }
 
   .list {
